@@ -37,13 +37,13 @@
     <div id="app">
 
         <!-- ═══════════════════════════════════════════════════
-             NAVBAR — minimalist, links only, no brand element
+             NAVBAR — FIXED: Horizontal, Right-Aligned, No Bullets
         ═══════════════════════════════════════════════════ -->
         <nav class="navbar navbar-expand-lg"
              :class="{ scrolled: isScrolled }"
              role="navigation" aria-label="Main navigation">
-            <div class="container justify-content-end">
-
+            <div class="container">
+                <!-- Toggler -->
                 <button class="navbar-toggler" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navLinks"
                         aria-expanded="false" aria-controls="navLinks"
@@ -51,8 +51,16 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse justify-content-end" id="navLinks">
-                    <ul class="navbar-nav align-items-lg-center gap-lg-3" role="list">
+                <!-- Collapse Menu -->
+                <div class="collapse navbar-collapse" id="navLinks">
+                    <!-- 
+                      FIX: 
+                      1. 'ms-auto' pushes the list to the right (margin-start: auto)
+                      2. 'align-items-lg-center' keeps them centered vertically
+                      3. 'gap-lg-3' adds space between items
+                      4. 'list-unstyled' (via Bootstrap) removes bullets
+                    -->
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3 list-unstyled" role="list">
                         <li role="listitem">
                             <a class="nav-link" href="#services"
                                @click.prevent="scrollTo('services')"
@@ -91,19 +99,14 @@
         </nav>
 
         <!-- ═══════════════════════════════════════════════════
-             HERO — canvas carousel, no text
+             HERO — Canvas carousel
         ═══════════════════════════════════════════════════ -->
         <section id="hero" aria-labelledby="hero-heading">
             <h1 id="hero-heading" class="visually-hidden">
                 A Little Aloha LLC — Pro Services, Design, and Calligraphy
             </h1>
 
-            <!--
-                Fixed aspect-ratio container. Canvas fills it absolutely.
-                Nothing outside this box is affected by canvas transitions.
-            -->
             <div class="hero-logo-container" aria-hidden="true">
-                <!-- <div id="three-container"></div> -->
                 <canvas id="hero-canvas"></canvas>
             </div>
 
@@ -116,43 +119,61 @@
 
         <main id="main-content">
 
-            <!-- ═══════════════════════════════════════════════
-                 SERVICES
-            ═══════════════════════════════════════════════ -->
+            <!-- ═══════════════════════════════════════════════════
+                 SERVICES — Fixed Icons & Active States
+            ═══════════════════════════════════════════════════ -->
             <section id="services" aria-labelledby="services-heading"
                      style="background:linear-gradient(180deg,#071A00 0%,#0A2200 100%)">
                 <div class="container">
                     <div class="section-rule" aria-hidden="true"></div>
                     <h2 id="services-heading" class="section-title">Services</h2>
 
-                    <div class="intro-banner" role="note" aria-label="Introductory pricing notice">
-                        <i class="fa fa-tag" aria-hidden="true"></i>
-                        <p>
-                            <strong>Introductory rates</strong> for first-time clients through
-                            <strong>June 30, 2026</strong> — 20–25% below standard rates across all service areas.
-                        </p>
-                    </div>
-
-                    <div class="alacarte-note" role="note">
-                        <p>All services are <strong>à la carte</strong> — mix and match across practice areas in a single engagement.</p>
-                    </div>
-
-                    <div class="philosophy-note" role="note">
-                        <p>
-                            <strong>Simple solutions to complex problems.</strong>
-                            Secure by default. Open-source tools built to best practices and published standards.
-                            No unnecessary dependence on platforms that treat your data as their product.
-                        </p>
-                    </div>
-
+                    <!-- Sticky Nav with Active State Binding -->
                     <nav class="serv-sticky-nav" aria-label="Services categories">
-                        <a class="serv-sticky-link" href="#infra"  @click.prevent="scrollTo('infra')">Infrastructure &amp; DDI</a>
-                        <a class="serv-sticky-link" href="#webops" @click.prevent="scrollTo('webops')">Web &amp; DevOps</a>
-                        <a class="serv-sticky-link" href="#design" @click.prevent="scrollTo('design')">Design</a>
-                        <a class="serv-sticky-link" href="#calli"  @click.prevent="scrollTo('calli')">Calligraphy</a>
+                        <a class="serv-sticky-link" 
+                           href="#infra" 
+                           @click.prevent="scrollTo('infra')"
+                           :class="{ active: activeSection === 'infra' }">
+                           Infrastructure &amp; DDI
+                        </a>
+                        <a class="serv-sticky-link" 
+                           href="#webops" 
+                           @click.prevent="scrollTo('webops')"
+                           :class="{ active: activeSection === 'webops' }">
+                           Web &amp; DevOps
+                        </a>
+                        <a class="serv-sticky-link" 
+                           href="#design" 
+                           @click.prevent="scrollTo('design')"
+                           :class="{ active: activeSection === 'design' }">
+                           Design
+                        </a>
+                        <a class="serv-sticky-link" 
+                           href="#calli" 
+                           @click.prevent="scrollTo('calli')"
+                           :class="{ active: activeSection === 'calli' }">
+                           Calligraphy
+                        </a>
                     </nav>
 
-                    <!-- Infrastructure & DDI -->
+                    <!-- Combined Notes -->
+                    <div class="intro-banner" role="note" aria-label="Pricing and engagement notes">
+                        <div class="banner-note">
+                            <i class="fa fa-tag" aria-hidden="true"></i>
+                            <p>
+                                <strong>Introductory rates</strong> for first-time clients through
+                                <strong>June 30, 2026</strong> — 20–25% below standard rates across all service areas.
+                            </p>
+                        </div>
+                        <div class="banner-note">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <p>
+                                All services are <strong>à la carte</strong> — mix and match across practice areas in a single engagement.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 1. Infrastructure & DDI -->
                     <div id="infra" class="dba-section">
                         <h3 class="sub-dba-title">Infrastructure &amp; DDI</h3>
                         <div class="single-card"
@@ -162,22 +183,36 @@
                              role="button" tabindex="0"
                              @keyup.enter="toggleCard(s)"
                              :aria-expanded="s.expanded.toString()">
+                            
                             <div class="card-header">
-                                <div class="card-icon" aria-hidden="true"><i :class="'fa ' + s.icon"></i></div>
+                                <!-- Icon: Ensure s.icon starts with 'fa-' -->
+                                <div class="card-icon" aria-hidden="true">
+                                    <i :class="['fa', s.icon]"></i>
+                                </div>
                                 <div class="flex-grow-1 min-w-0">
                                     <span class="card-title">{{ s.title }}</span>
-                                    <span class="card-meta">{{ s.meta }}</span>
+                                    <div class="tag-row-horizontal" v-if="!s.expanded">
+                                        <span class="tag-pill" v-for="tag in s.allTags" :key="tag.label">{{ tag.label }}</span>
+                                    </div>
                                 </div>
-                                <div class="expand-indicator" aria-hidden="true"><i class="fa fa-chevron-down"></i></div>
+                                <div class="expand-indicator" aria-hidden="true">
+                                    <i class="fa" :class="s.expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </div>
                             </div>
-                            <p class="card-body">{{ s.desc }}</p>
-                            <div class="tag-row" v-if="s.expanded">
-                                <span class="tag" v-for="t in s.tags" :key="t">{{ t }}</span>
+
+                            <div class="card-expand-body">
+                                <p class="card-body-text">{{ s.desc }}</p>
+                                <div class="tag-list-vertical" v-if="s.expanded">
+                                    <div class="tag-item-vert" v-for="tag in s.allTags" :key="tag.label">
+                                        <span class="tag-label">{{ tag.label }}</span>
+                                        <span class="tag-desc">{{ tag.shortDesc }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Web & DevOps -->
+                    <!-- 2. Web & DevOps -->
                     <div id="webops" class="dba-section">
                         <h3 class="sub-dba-title">Web &amp; DevOps</h3>
                         <div class="single-card"
@@ -187,22 +222,35 @@
                              role="button" tabindex="0"
                              @keyup.enter="toggleCard(s)"
                              :aria-expanded="s.expanded.toString()">
+                            
                             <div class="card-header">
-                                <div class="card-icon" aria-hidden="true"><i :class="'fa ' + s.icon"></i></div>
+                                <div class="card-icon" aria-hidden="true">
+                                    <i :class="['fa', s.icon]"></i>
+                                </div>
                                 <div class="flex-grow-1 min-w-0">
                                     <span class="card-title">{{ s.title }}</span>
-                                    <span class="card-meta">{{ s.meta }}</span>
+                                    <div class="tag-row-horizontal" v-if="!s.expanded">
+                                        <span class="tag-pill" v-for="tag in s.allTags" :key="tag.label">{{ tag.label }}</span>
+                                    </div>
                                 </div>
-                                <div class="expand-indicator" aria-hidden="true"><i class="fa fa-chevron-down"></i></div>
+                                <div class="expand-indicator" aria-hidden="true">
+                                    <i class="fa" :class="s.expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </div>
                             </div>
-                            <p class="card-body">{{ s.desc }}</p>
-                            <div class="tag-row" v-if="s.expanded">
-                                <span class="tag" v-for="t in s.tags" :key="t">{{ t }}</span>
+
+                            <div class="card-expand-body">
+                                <p class="card-body-text">{{ s.desc }}</p>
+                                <div class="tag-list-vertical" v-if="s.expanded">
+                                    <div class="tag-item-vert" v-for="tag in s.allTags" :key="tag.label">
+                                        <span class="tag-label">{{ tag.label }}</span>
+                                        <span class="tag-desc">{{ tag.shortDesc }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Design -->
+                    <!-- 3. Design -->
                     <div id="design" class="dba-section">
                         <h3 class="dba-title">Design</h3>
                         <p class="dba-desc">Graphic design, branding, photography, and print media.</p>
@@ -213,22 +261,35 @@
                              role="button" tabindex="0"
                              @keyup.enter="toggleCard(s)"
                              :aria-expanded="s.expanded.toString()">
+                            
                             <div class="card-header">
-                                <div class="card-icon" aria-hidden="true"><i :class="'fa ' + s.icon"></i></div>
+                                <div class="card-icon" aria-hidden="true">
+                                    <i :class="['fa', s.icon]"></i>
+                                </div>
                                 <div class="flex-grow-1 min-w-0">
                                     <span class="card-title">{{ s.title }}</span>
-                                    <span class="card-meta">{{ s.meta }}</span>
+                                    <div class="tag-row-horizontal" v-if="!s.expanded">
+                                        <span class="tag-pill" v-for="tag in s.allTags" :key="tag.label">{{ tag.label }}</span>
+                                    </div>
                                 </div>
-                                <div class="expand-indicator" aria-hidden="true"><i class="fa fa-chevron-down"></i></div>
+                                <div class="expand-indicator" aria-hidden="true">
+                                    <i class="fa" :class="s.expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </div>
                             </div>
-                            <p class="card-body">{{ s.desc }}</p>
-                            <div class="tag-row" v-if="s.expanded">
-                                <span class="tag" v-for="t in s.tags" :key="t">{{ t }}</span>
+
+                            <div class="card-expand-body">
+                                <p class="card-body-text">{{ s.desc }}</p>
+                                <div class="tag-list-vertical" v-if="s.expanded">
+                                    <div class="tag-item-vert" v-for="tag in s.allTags" :key="tag.label">
+                                        <span class="tag-label">{{ tag.label }}</span>
+                                        <span class="tag-desc">{{ tag.shortDesc }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Calligraphy -->
+                    <!-- 4. Calligraphy -->
                     <div id="calli" class="dba-section">
                         <h3 class="dba-title">Calligraphy</h3>
                         <p class="dba-desc">Hand lettering, engrossing, and formal document services.</p>
@@ -239,17 +300,30 @@
                              role="button" tabindex="0"
                              @keyup.enter="toggleCard(s)"
                              :aria-expanded="s.expanded.toString()">
+                            
                             <div class="card-header">
-                                <div class="card-icon" aria-hidden="true"><i :class="'fa ' + s.icon"></i></div>
+                                <div class="card-icon" aria-hidden="true">
+                                    <i :class="['fa', s.icon]"></i>
+                                </div>
                                 <div class="flex-grow-1 min-w-0">
                                     <span class="card-title">{{ s.title }}</span>
-                                    <span class="card-meta">{{ s.meta }}</span>
+                                    <div class="tag-row-horizontal" v-if="!s.expanded">
+                                        <span class="tag-pill" v-for="tag in s.allTags" :key="tag.label">{{ tag.label }}</span>
+                                    </div>
                                 </div>
-                                <div class="expand-indicator" aria-hidden="true"><i class="fa fa-chevron-down"></i></div>
+                                <div class="expand-indicator" aria-hidden="true">
+                                    <i class="fa" :class="s.expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </div>
                             </div>
-                            <p class="card-body">{{ s.desc }}</p>
-                            <div class="tag-row" v-if="s.expanded">
-                                <span class="tag" v-for="t in s.tags" :key="t">{{ t }}</span>
+
+                            <div class="card-expand-body">
+                                <p class="card-body-text">{{ s.desc }}</p>
+                                <div class="tag-list-vertical" v-if="s.expanded">
+                                    <div class="tag-item-vert" v-for="tag in s.allTags" :key="tag.label">
+                                        <span class="tag-label">{{ tag.label }}</span>
+                                        <span class="tag-desc">{{ tag.shortDesc }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -257,21 +331,36 @@
                 </div>
             </section>
 
-            <!-- ═══════════════════════════════════════════════
-                 PORTFOLIO — 3 sub-sections, no filter buttons
-            ═══════════════════════════════════════════════ -->
+            <!-- ═══════════════════════════════════════════════════
+                 PORTFOLIO — Fixed Active States & Alignment
+            ═══════════════════════════════════════════════════ -->
             <section id="portfolio" aria-labelledby="portfolio-heading" @contextmenu.prevent>
                 <div class="container">
                     <div class="section-rule" aria-hidden="true"></div>
                     <h2 id="portfolio-heading" class="section-title">Portfolio</h2>
                     <p class="section-sub">samples from recent projects</p>
 
-                    <!-- <nav class="port-sticky-nav" aria-label="Services categories" class="visually-hidden">
-                        <a class="port-sticky-link" href="#professional"  @click.prevent="scrollTo('infra')">Infrastructure &amp; DDI</a>
-                        <a class="port-sticky-link" href="#design" @click.prevent="scrollTo('webops')">Web &amp; DevOps</a>
-                        <a class="port-sticky-link" href="#calligraphy" @click.prevent="scrollTo('design')">Design</a>
-                        <a class="port-sticky-link" href="#calli"  @click.prevent="scrollTo('calli')">Calligraphy</a>
-                    </nav> -->
+                    <!-- Sticky Nav with Active State Binding -->
+                    <nav class="port-sticky-nav" aria-label="Portfolio categories">
+                        <a class="port-sticky-link" 
+                           href="#professional" 
+                           @click.prevent="scrollTo('professional')"
+                           :class="{ active: activeSection === 'professional' }">
+                           Pro Services
+                        </a>
+                        <a class="port-sticky-link" 
+                           href="#design" 
+                           @click.prevent="scrollTo('design')"
+                           :class="{ active: activeSection === 'design' }">
+                           Design
+                        </a>
+                        <a class="port-sticky-link" 
+                           href="#calligraphy" 
+                           @click.prevent="scrollTo('calligraphy')"
+                           :class="{ active: activeSection === 'calligraphy' }">
+                           Calligraphy
+                        </a>
+                    </nav>
 
                     <div class="port-section" id="professional">
                         <h3 class="port-section-title">Pro Services</h3>
@@ -349,10 +438,10 @@
                     </div>
                 </div>
             </section>
-
-            <!-- ═══════════════════════════════════════════════
-                 ABOUT — no location reference
-            ═══════════════════════════════════════════════ -->
+                        
+            <!-- ═══════════════════════════════════════════════════
+                 ABOUT
+            ═══════════════════════════════════════════════════ -->
             <section id="about" aria-labelledby="about-heading">
                 <div class="container">
                     <div class="about-inner">
@@ -382,10 +471,9 @@
                 </div>
             </section>
 
-            <!-- ═══════════════════════════════════════════════
+            <!-- ═══════════════════════════════════════════════════
                  CONTACT / PLATFORMS
-                 Location appears only here.
-            ═══════════════════════════════════════════════ -->
+            ═══════════════════════════════════════════════════ -->
             <section id="platforms" aria-labelledby="platforms-heading">
                 <div class="container">
                     <div class="section-rule" aria-hidden="true"></div>
@@ -393,27 +481,23 @@
                     <p class="platforms-location">A LITTLE ALOHA LLC &nbsp;·&nbsp; ALITTLEALOHA.PRO</p>
 
                     <div class="platforms-grid" role="list">
-
                         <a class="platform-link" href="https://www.linkedin.com/in/kentmschaeffer"
                            role="listitem" aria-label="LinkedIn"
                            target="_blank" rel="noopener noreferrer">
                             <i class="fa fa-linkedin platform-icon" aria-hidden="true"></i>
                             <span class="platform-name">LinkedIn</span>
                         </a>
-
                         <a class="platform-link" href="https://github.com/kentknowsme"
                            role="listitem" aria-label="GitHub"
                            target="_blank" rel="noopener noreferrer">
                             <i class="fa fa-github platform-icon" aria-hidden="true"></i>
                             <span class="platform-name">GitHub</span>
                         </a>
-
                         <a class="platform-link" href="mailto:kent@alittlealoha.pro"
                            role="listitem" aria-label="Email">
                             <i class="fa fa-envelope platform-icon" aria-hidden="true"></i>
                             <span class="platform-name">Email</span>
                         </a>
-
                         <a class="platform-link" href="#"
                            role="listitem" aria-label="Fiverr"
                            target="_blank" rel="noopener noreferrer">
@@ -421,7 +505,6 @@
                                  alt="" aria-hidden="true" style="width:32px;height:32px;filter:invert(0.55)">
                             <span class="platform-name">Fiverr</span>
                         </a>
-
                         <a class="platform-link" href="#"
                            role="listitem" aria-label="Upwork"
                            target="_blank" rel="noopener noreferrer">
@@ -429,35 +512,30 @@
                                  alt="" aria-hidden="true" style="width:32px;height:32px;filter:invert(0.55)">
                             <span class="platform-name">Upwork</span>
                         </a>
-
                         <a class="platform-link" href="#"
                            role="listitem" aria-label="Codementor"
                            target="_blank" rel="noopener noreferrer">
                             <i class="fa fa-code platform-icon" aria-hidden="true"></i>
                             <span class="platform-name">Codementor</span>
                         </a>
-
                         <a class="platform-link" href="#"
                            role="listitem" aria-label="Contra"
                            target="_blank" rel="noopener noreferrer">
                             <i class="fa fa-briefcase platform-icon" aria-hidden="true"></i>
                             <span class="platform-name">Contra</span>
                         </a>
-
                         <a class="platform-link" href="#"
                            role="listitem" aria-label="Thumbtack"
                            target="_blank" rel="noopener noreferrer">
                             <i class="fa fa-thumb-tack platform-icon" aria-hidden="true"></i>
                             <span class="platform-name">Thumbtack</span>
                         </a>
-
                         <a class="platform-link" href="#"
                            role="listitem" aria-label="Field Engineer"
                            target="_blank" rel="noopener noreferrer">
                             <i class="fa fa-wrench platform-icon" aria-hidden="true"></i>
                             <span class="platform-name">Field Eng.</span>
                         </a>
-
                         <a class="platform-link" href="https://unsplash.com/@kentknowsme"
                            role="listitem" aria-label="Unsplash"
                            target="_blank" rel="noopener noreferrer">
@@ -465,7 +543,6 @@
                                  alt="" aria-hidden="true" style="width:32px;height:32px;filter:invert(0.55)">
                             <span class="platform-name">Unsplash</span>
                         </a>
-
                     </div>
                 </div>
             </section>
@@ -488,12 +565,7 @@
             <i class="fa fa-home" aria-hidden="true"></i>
         </button>
 
-        <!-- ═══════════════════════════════════════════════════
-             LIGHTBOX
-             v-if = only exists in DOM when open.
-             Escape handled by window keydown listener in index.js.
-             Click overlay or × to close.
-        ═══════════════════════════════════════════════════ -->
+        <!-- Lightbox -->
         <div v-if="isLightboxOpen"
              class="lightbox-overlay"
              role="dialog" aria-modal="true" aria-label="Portfolio image"
@@ -506,15 +578,13 @@
             <img :src="selectedImage" class="lightbox-img" alt="Portfolio preview">
         </div>
 
-    </div><!-- #app -->
-
+    </div>
 
     <!-- Vendor JS -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script>
 
-    <!-- Vite app entry scripts -->
+    <!-- App Entry -->
     <script src="./src/main.js" type="module"></script>
-
 </body>
 </html>

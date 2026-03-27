@@ -19,8 +19,8 @@
     --bg:           #071A00;
     --bg-surface:   #0E2E00;
     --bg-alt:       #163800;
-    --text:         #E8F0E0;    /* warm white — body/description text    */
-    --text-muted:   #7A9A78;    /* light green — secondary/meta text     */
+    --text:         #E8F0E0;
+    --text-muted:   #7A9A78;
     --border:       rgba(0,128,0,0.28);
     --border-gold:  rgba(240,176,96,0.50);
 
@@ -36,7 +36,7 @@ body {
     font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.75;
-    color: var(--gold);         /* default text = gold */
+    color: var(--gold);
     background: var(--bg);
     overflow-x: hidden;
 }
@@ -58,7 +58,7 @@ a:hover, a:focus-visible { color: var(--gold-light); }
 }
 .skip-link:focus { top: 0; }
 
-/* ── Navbar — minimalist, links only ─────────────────────── */
+/* ── Navbar — Top Navigation ──────────────────────────────── */
 .navbar {
     position: fixed; top: 0; width: 100%; z-index: 1000;
     height: var(--nav-h);
@@ -83,11 +83,11 @@ a:hover, a:focus-visible { color: var(--gold-light); }
     position: relative; padding-bottom: 4px;
     transition: color 0.2s ease;
 }
-.nav-link::after, .serv-sticky-link::after {
+.nav-link::after {
     content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
     width: 0; height: 2px; background: var(--gold); transition: width 0.25s ease;
 }
-.nav-link:hover, .nav-link.active, .serv-sticky-link:hover, .serv-sticky-link.active { 
+.nav-link:hover, .nav-link.active { 
     color: var(--gold) !important; font-weight: 700;
 }
 .nav-link:hover::after, .nav-link.active::after { width: 80%; }
@@ -133,10 +133,8 @@ a:hover, a:focus-visible { color: var(--gold-light); }
     pointer-events: none;
 }
 
-/* Canvas container: fixed aspect-ratio box — NEVER changes size */
 .hero-logo-container {
     position: relative;
-    /* Size: largest square that leaves room for button + padding */
     width: min(640px, min(88vw, calc(100svh - 200px)));
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
@@ -158,12 +156,15 @@ section { padding: 5rem 0; }
     width: 40px; height: 3px; background: var(--green);
     margin: 0 auto 0.65rem; border-radius: 2px;
 }
+
 .section-title {
-    font-family: var(--font-dba);
+    font-family: 'YoureGone', 'Syncopate', sans-serif !important;
     font-size: clamp(1.5rem, 3.5vw, 2.2rem);
     color: var(--violet);
     text-align: center; margin-bottom: 0.35rem; line-height: 1.2;
+    font-weight: 400;
 }
+
 .section-sub {
     font-family: var(--font-body);
     font-size: 0.95rem;
@@ -172,46 +173,38 @@ section { padding: 5rem 0; }
     letter-spacing: 0.12em;
 }
 
-/* ── Banners ──────────────────────────────────────────────── */
+/* ── Combined Banner Notes ────────────────────────────────── */
 .intro-banner {
     background: rgba(240,176,96,0.07); border: 1.5px solid var(--border-gold);
     border-radius: 10px; padding: 1rem 1.5rem;
     max-width: 780px; margin: 0 auto 2rem;
-    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-    justify-content: center; text-align: center;
+    display: flex; flex-direction: column; gap: 0.75rem;
+    text-align: left;
 }
-.intro-banner .fa { font-size: 1.3rem; color: var(--gold); flex-shrink: 0; }
-.intro-banner p   { font-size: 0.95rem; color: var(--gold-light); letter-spacing: 0.06em; margin: 0; line-height: 1.75; }
-.intro-banner strong { color: var(--gold); }
-
-.alacarte-note {
-    background: rgba(201,106,255,0.06); border: 1px solid rgba(201,106,255,0.22);
-    border-radius: 8px; padding: 0.75rem 1.25rem;
-    max-width: 680px; margin: 0 auto 1.5rem; text-align: center;
+.banner-note {
+    display: flex; align-items: flex-start; gap: 0.75rem;
 }
-.alacarte-note p { font-size: 0.95rem; color: rgba(201,106,255,0.85); letter-spacing: 0.06em; margin: 0; line-height: 1.7; }
-
-.philosophy-note {
-    background: rgba(26,140,0,0.07); border: 1px solid rgba(26,140,0,0.25);
-    border-radius: 8px; padding: 0.75rem 1.25rem;
-    max-width: 680px; margin: 0 auto 2.5rem; text-align: center;
+.banner-note .fa {
+    font-size: 1.1rem; color: var(--gold); flex-shrink: 0; margin-top: 2px;
 }
-.philosophy-note p { font-size: 0.95rem; color: var(--text-muted); letter-spacing: 0.06em; margin: 0; line-height: 1.75; }
-.philosophy-note strong { color: var(--green-light); }
+.banner-note p {
+    font-size: 0.95rem; color: var(--gold-light); letter-spacing: 0.06em; margin: 0; line-height: 1.75;
+}
+.banner-note strong { color: var(--gold); }
 
-/* ── Services sticky sub-nav ──────────────────────────────── */
+/* ── Services Sticky Nav (Right Aligned, Active State) ────── */
 .serv-sticky-nav {
     position: sticky;
     top: var(--nav-h);
     z-index: 900;
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    background: rgba(7,26,0,0.9);
     padding: 0.55rem 0;
     margin-bottom: 2.5rem;
     display: flex;
-    justify-content: right;
-    gap: 0.75rem;
+    justify-content: flex-end; /* RIGHT ALIGNED */
+    gap: 1.5rem;
     flex-wrap: wrap;
 }
 .serv-sticky-link {
@@ -222,32 +215,79 @@ section { padding: 5rem 0; }
     padding: 0.3rem 0.9rem;
     border-radius: 4px;
     transition: color 0.2s ease;
+    position: relative;
 }
+.serv-sticky-link::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 0; height: 2px; background: var(--gold); transition: width 0.25s ease;
+}
+.serv-sticky-link:hover, .serv-sticky-link.active {
+    color: var(--gold) !important; font-weight: 700;
+}
+.serv-sticky-link:hover::after, .serv-sticky-link.active::after { width: 80%; }
 
+/* ── Portfolio Sticky Nav (Right Aligned, Active State) ───── */
+.port-sticky-nav {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 900;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    background: rgba(7,26,0,0.9);
+    padding: 0.55rem 0;
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: flex-end; /* RIGHT ALIGNED */
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.port-sticky-link {
+    font-family: var(--font-body);
+    font-size: 0.8rem; font-weight: 400;
+    color: var(--text); letter-spacing: 0.08em;
+    text-decoration: none;
+    padding: 0.3rem 0.9rem;
+    border-radius: 4px;
+    transition: color 0.2s ease;
+    position: relative;
+}
+.port-sticky-link::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 0; height: 2px; background: var(--gold); transition: width 0.25s ease;
+}
+.port-sticky-link:hover, .port-sticky-link.active {
+    color: var(--gold) !important; font-weight: 700;
+}
+.port-sticky-link:hover::after, .port-sticky-link.active::after { width: 80%; }
 
 /* ── DBA section headers ──────────────────────────────────── */
 .dba-section { max-width: 900px; margin: 0 auto 3.5rem; }
 
-.dba-title {
-    font-family: var(--font-dba);
-    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+.dba-title, .sub-dba-title {
+    font-family: 'YoureGone', 'Syncopate', sans-serif !important;
     color: var(--violet);
     margin-bottom: 0.35rem;
     border-bottom: 1px solid var(--border);
     padding-bottom: 0.5rem;
+    font-weight: 400;
 }
+
+.dba-title {
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    margin-bottom: 1.5rem;
+}
+
+.sub-dba-title {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    margin: 0 0 1.2rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed var(--border);
+}
+
 .dba-desc {
     font-size: 0.95rem;
     color: var(--text-muted);
     margin-bottom: 1.4rem;
-}
-.sub-dba-title {
-    font-family: var(--font-dba);
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    color: var(--violet);
-    margin: 0 0 1.2rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px dashed var(--border);
 }
 
 /* ── Service cards (accordion) ────────────────────────────── */
@@ -283,23 +323,62 @@ section { padding: 5rem 0; }
     font-family: var(--font-body);
     font-size: 1.05rem; font-weight: 700; color: var(--gold); margin: 0;
 }
-.card-meta {
-    font-size: 0.75rem; font-weight: 700; color: var(--green-light);
-    letter-spacing: 0.08em; display: block; margin-top: 0.15rem;
+
+/* Horizontal Tags */
+.tag-row-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.4rem;
+}
+.tag-pill {
+    font-family: var(--font-body);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.07em;
+    background: rgba(0,128,0,0.12); color: var(--green-light);
+    border: 1px solid rgba(0,128,0,0.28); padding: 2px 7px; border-radius: 4px;
+    white-space: nowrap;
 }
 
-/* Card body: hidden by default, revealed via accordion */
-.card-body {
+/* Expand Body */
+.card-expand-body {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+}
+
+.single-card.expanded .card-expand-body {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 0.8rem;
+}
+
+.card-body-text {
     font-family: var(--font-body);
     font-size: 0.95rem;
-    color: var(--text);    /* warm white — legible on dark bg */
+    color: var(--text);
     line-height: 1.75;
-    margin: 0;
-    max-height: 0; overflow: hidden; opacity: 0;
-    transition: max-height 0.38s ease, opacity 0.38s ease, margin-top 0.28s ease;
+    margin: 0 0 0.8rem 0;
 }
-.single-card.expanded .card-body {
-    max-height: 600px; opacity: 1; margin-top: 0.6rem;
+
+/* Two-Column Tag List */
+.tag-list-vertical {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0.6rem;
+    align-items: start;
+}
+.tag-item-vert {
+    display: contents;
+}
+.tag-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem; font-weight: 700; color: var(--gold);
+    white-space: nowrap;
+}
+.tag-desc {
+    font-family: var(--font-body);
+    font-size: 0.85rem; color: var(--text-muted);
 }
 
 .expand-indicator {
@@ -311,31 +390,21 @@ section { padding: 5rem 0; }
     transform: translateY(-50%) rotate(180deg);
 }
 
-.tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 0.65rem; }
-.tag {
-    font-family: var(--font-body);
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.07em;
-    background: rgba(0,128,0,0.12); color: var(--green-light);
-    border: 1px solid rgba(0,128,0,0.28); padding: 3px 8px; border-radius: 4px;
-}
-
 /* ── Portfolio ────────────────────────────────────────────── */
 #portfolio { background: linear-gradient(180deg, var(--bg) 0%, #0A2200 100%); }
 
-/* Sub-section (mirrors services DBA layout) */
 .port-section { margin-bottom: 3.5rem; max-width: 1100px; margin-inline: auto; }
 .port-section:last-child { margin-bottom: 0; }
 
 .port-section-title {
     font-family: var(--font-dba);
     font-size: clamp(1.1rem, 2.2vw, 1.55rem);
-    color: var(--gold);          /* gold to distinguish from section-level violet */
+    color: var(--gold);
     margin-bottom: 1.1rem;
     padding-bottom: 0.45rem;
     border-bottom: 1px solid var(--border);
 }
 
-/* Gallery grid — consistent card sizes within each sub-section */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -360,9 +429,8 @@ section { padding: 5rem 0; }
 .gallery-img {
     position: absolute; inset: 0;
     background-size: cover; background-position: center;
-    transition: transform 0.5s ease;   /* smooth expand on hover */
+    transition: transform 0.5s ease;
 }
-/* Scale 1.2 on hover — image expands inside the fixed card */
 .gallery-card:hover .gallery-img { transform: scale(1.2); }
 
 .gallery-protect { position: absolute; inset: 0; z-index: 2; background: transparent; cursor: pointer; }
@@ -380,7 +448,6 @@ section { padding: 5rem 0; }
 }
 
 /* ── Lightbox ─────────────────────────────────────────────── */
-/* Uses v-if — enters/leaves DOM cleanly */
 .lightbox-overlay {
     position: fixed; inset: 0; z-index: 9999;
     background: rgba(0, 0, 0, 0.92);
@@ -431,7 +498,7 @@ section { padding: 5rem 0; }
 .about-body  {
     font-family: var(--font-body);
     font-size: 1rem;
-    color: var(--text);     /* warm white — not muted green */
+    color: var(--text);
     line-height: 1.95; margin-bottom: 1.35rem;
 }
 
@@ -454,7 +521,6 @@ section { padding: 5rem 0; }
     gap: 14px; max-width: 820px; margin: 0 auto;
 }
 
-/* 100×100 icon tiles — name slides up on hover */
 .platform-link {
     position: relative;
     width: 100px; height: 100px;
@@ -488,7 +554,7 @@ footer {
 footer p      { font-family: var(--font-body); font-size: 1rem; color: var(--gold); letter-spacing: 0.06em; margin-bottom: 4px; }
 footer a:hover{ color: var(--gold-light); }
 
-/* ── Scroll-to-top ────────────────────────────────────────── */
+/* ── Scroll-to-top ───────────────────────────────────────── */
 .home-button {
     position: fixed; bottom: 28px; right: 28px; z-index: 999;
     background: var(--green); color: #fff; border: none;
@@ -506,15 +572,38 @@ footer a:hover{ color: var(--gold-light); }
 @media (max-width: 768px) {
     .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
     .single-card  { padding: 0.9rem 1rem; }
-    .sticky-nav   { top: var(--nav-h); }
+    .serv-sticky-nav, .port-sticky-nav { top: var(--nav-h); }
+    
+    /* Stack sticky nav links on mobile */
+    .serv-sticky-nav, .port-sticky-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    .serv-sticky-link, .port-sticky-link {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+    }
 }
+
 @media (max-width: 500px) {
-    .sticky-nav   { flex-direction: column; align-items: center; }
-    .sticky-nav a { width: 100%; max-width: 280px; text-align: center; }
     .platforms-grid { gap: 10px; }
     .platform-link { width: 88px; height: 88px; }
+    
+    /* Two-column tag list becomes single column on very small screens */
+    .tag-list-vertical {
+        grid-template-columns: 1fr !important;
+    }
+    .tag-item-vert {
+        display: block !important;
+    }
+    .tag-label {
+        margin-bottom: 0.2rem;
+    }
 }
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
-

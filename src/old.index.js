@@ -1,154 +1,28 @@
 'use strict';
 
+// const { createApp } = Vue;
+
+// replace existing top of index.js
 import { createApp } from 'vue';
 
 /* ── Constants ──────────────────────────────────────────────────────────── */
-const CANVAS_SIZE   = 1000;
-const SLIDE_HOLD_MS = 5000;
+const CANVAS_SIZE   = 1000;          // internal canvas resolution (px)
+const SLIDE_HOLD_MS = 5000;          // how long each logo is displayed
 
-/* ── TAG DESCRIPTIONS HASH (Centralized, Non-Reactive) ─────────────────── */
-// This is a simple object lookup - O(1) performance
-const TAG_DESCRIPTIONS = {
-    // DDI / Infrastructure
-    'Infoblox': 'Centralized DDI management platform.',
-    'BIND 9': 'Industry-standard DNS server software.',
-    'QIP': 'IPAM solution for enterprise networks.',
-    'IPv6': 'Next-gen internet protocol addressing.',
-    'DDI Automation': 'Scripted management of DNS/DHCP.',
-    'RHEL': 'Red Hat Enterprise Linux OS.',
-    'CentOS': 'Community Enterprise Operating System.',
-    'Solaris': 'Sun Microsystems Unix OS.',
-    'SuSE': 'Linux distribution for enterprise.',
-    'HP-UX': 'Hewlett Packard Unix OS.',
-    'Visio': 'Microsoft diagramming tool.',
-    'OmniGraffle': 'Mac diagramming tool.',
-    'draw.io': 'Free online diagramming.',
-    'Confluence': 'Atlassian wiki software.',
-    'Jira': 'Project tracking software.',
-    'Atlassian': 'Software suite vendor.',
-    'Scrum': 'Agile framework.',
-    'Wi-Fi': 'Wireless networking standard.',
-    'Router': 'Network traffic director.',
-    '802.11': 'Wireless LAN standard.',
-    'Coverage': 'Signal range area.',
-    'Security': 'Protection measures.',
-    'Modem': 'Modulator-Demodulator device.',
-    'ISP': 'Internet Service Provider.',
-    'Port Forwarding': 'Routing external requests internally.',
-    'QoS': 'Quality of Service prioritization.',
-    'Mesh': 'Multi-node wireless network.',
-    'Eero': 'Mesh system brand.',
-    'Orbi': 'Mesh system brand.',
-    'Google WiFi': 'Mesh system brand.',
-    'Node Placement': 'Strategic device positioning.',
-    'Cat6': 'Ethernet cable standard.',
-    'Cat5e': 'Ethernet cable standard.',
-    'Ethernet': 'Wired networking.',
-    'Wired': 'Physical cable connection.',
-    'LAN': 'Local Area Network.',
-    'Troubleshooting': 'Problem diagnosis.',
-    'Diagnostics': 'System health checks.',
-    'Connectivity': 'Network connection status.',
-    'Speed': 'Data transfer rate.',
-    'Firewall': 'Network security barrier.',
-    'Guest Network': 'Isolated user network.',
-    'Audit': 'Security review.',
-    'Firmware': 'Device software.',
-    'Xfinity': 'Comcast ISP.',
-    'CenturyLink': 'Lumen ISP.',
-    'Technical Support': 'Help desk assistance.',
-    'Coordination': 'Scheduling and logistics.',
-    'Documentation': 'Written records.',
-    'Onboarding': 'New user setup.',
-    'Markdown': 'Plain text formatting.',
-    'Perl': 'Scripting language.',
-    'Bash': 'Shell scripting.',
-    'ksh': 'Korn shell.',
-    'zsh': 'Z shell.',
-    'PowerShell': 'Microsoft scripting.',
-    'Runbooks': 'Operational procedures.',
-    'SOPs': 'Standard Operating Procedures.',
-    'Guides': 'Instructional manuals.',
-    'Docs-as-Code': 'Documentation workflow.',
-    'Linux': 'Operating system kernel.',
-    'Codementor': 'Mentoring platform.',
-    'Node.js': 'JavaScript runtime.',
-    'MySQL': 'Relational database.',
-    'MongoDB': 'NoSQL database.',
-    'Apache': 'Web server.',
-    'PostgreSQL': 'Advanced relational DB.',
-    'Google Cloud': 'Cloud provider.',
-    'AWS': 'Amazon Web Services.',
-    'Azure': 'Microsoft cloud.',
-    'BPMN': 'Business Process Model.',
-    'Integration': 'System connectivity.',
-    'API Docs': 'Interface documentation.',
-    
-    // Design
-    'Identity Design': 'Brand visual strategy.',
-    'Illustrator': 'Vector graphics tool.',
-    'Inkscape': 'Open-source vector tool.',
-    'SVG': 'Scalable Vector Graphics.',
-    'Brand Guide': 'Style manual.',
-    'Print-Ready': 'Production quality files.',
-    'CMYK': 'Print color model.',
-    'InDesign': 'Page layout tool.',
-    'Reports': 'Business documents.',
-    'Proposals': 'Sales documents.',
-    'LibreOffice': 'Office suite.',
-    'Word': 'Word processor.',
-    'PDF': 'Portable Document Format.',
-    'Posts': 'Social media updates.',
-    'Banners': 'Header graphics.',
-    'Covers': 'Profile headers.',
-    'Photoshop': 'Raster editor.',
-    'Canva': 'Design tool.',
-    'Instagram': 'Social platform.',
-    'LinkedIn': 'Professional network.',
-    'Slides': 'Presentation slides.',
-    'Decks': 'Pitch decks.',
-    'Keynote': 'Apple presentation tool.',
-    'Google Slides': 'Web presentation tool.',
-    'Color Grading': 'Image color adjustment.',
-    'Compositing': 'Image layering.',
-    'Photography': 'Image capture.',
-    'Business': 'Corporate context.',
-    'Events': 'Occasions.',
-    'Editing': 'Image refinement.',
-    'Hand-drawn': 'Manual creation.',
-    'Digital': 'Computer generated.',
-    'Custom Art': 'Unique artwork.',
-    'Figma': 'UI design tool.',
-    'UI': 'User Interface.',
-    
-    // Calligraphy
-    'Envelope Addressing': 'Handwritten mail.',
-    'Copperplate': 'Classic script style.',
-    'Italic': 'Angled script style.',
-    'Modern': 'Contemporary style.',
-    'Pointed Pen': 'Calligraphy tool.',
-    'Engrossing': 'Formal writing.',
-    'Certificates': 'Official awards.',
-    'Awards': 'Recognition.',
-    'Formal': 'Official tone.',
-    'Place Cards': 'Seating markers.',
-    'Menus': 'Food lists.',
-    'Seating Charts': 'Guest arrangement.',
-    'Event': 'Gathering.',
-    'Quotes': 'Famous sayings.',
-    'Framed': 'Wall art.',
-    'Gift': 'Present.',
-    'Scrivener': 'Professional writer.',
-    'Legal': 'Law related.',
-    'Holiday': 'Seasonal.',
-    'Cards': 'Greetings.',
-    'Seasonal': 'Time-specific.',
-    'Personal': 'Individualized.'
-};
+// Brand colors for the particle scatter effect
+// (avoids pixel-sampling the SVG, which can taint the canvas cross-browser)
+const BRAND_COLORS = [
+    [240, 176, 96],   // --gold
+    [248, 204, 138],  // --gold-light
+    [0,   187, 0],    // --green-light
+    [201, 106, 255],  // --violet
+    [232, 240, 224],  // --text
+];
 
 /* ── App ────────────────────────────────────────────────────────────────── */
 createApp({
 
+    /* ── Data ─────────────────────────────────────────────────────────── */
     data() {
         return {
             isScrolled:    false,
@@ -156,13 +30,16 @@ createApp({
             activeSection: 'hero',
             year:          new Date().getFullYear(),
 
-            /* Canvas carousel state */
+            /* Canvas carousel state (underscore prefix = not reactive-tracked) */
             heroLogos: [
                 '/assets/img/a-little-aloha-clear-shadow.svg',
                 '/assets/img/pro-with-a-little-aloha-clear-shadow.svg',
                 '/assets/img/design-with-a-little-aloha-clear-shadow.svg',
                 '/assets/img/calligraphy-with-a-little-aloha-clear-shadow.svg',
             ],
+            // Entrance effect for each logo index
+            // 0 → Transporter  1 → Mullany block dissolve
+            // 2 → Eru particles  3 → Burn from center
             heroEffects: ['transporter', 'mullany', 'particles', 'burn'],
 
             /* Lightbox */
@@ -172,23 +49,49 @@ createApp({
             /* ── Service cards ─────────────────────────────────────────── */
             services: {
                 infra: [
-                    { title:'DDI Consulting & Audits', meta:['Infoblox','BIND 9','QIP'], tags:['IPv6','DDI Automation'], icon:'fa-sitemap', desc:'Enterprise DNS/DHCP/IPAM architecture, migration planning, implementation, and documentation using Infoblox, BIND 9, and QIP. Zone design, automation scripting, and comprehensive runbooks.', expanded:false, visible:false },
-                    // ... other items
+                    { title:'DDI Consulting & Audits',       meta:'DNS · DHCP · IPAM',          icon:'fa-sitemap',     desc:'Enterprise DNS/DHCP/IPAM architecture, migration planning, implementation, and documentation using Infoblox, BIND 9, and QIP. Zone design, automation scripting, and comprehensive runbooks.',                                          tags:['Infoblox','BIND 9','QIP','IPv6','DDI Automation'],                 visible:false, expanded:false },
+                    { title:'Linux / Unix Administration',   meta:'RHEL · CentOS · Solaris',    icon:'fa-server',      desc:'System configuration, hardening, monitoring, and automation across RHEL, CentOS, SuSE, Solaris, and HP-UX. Network service deployment and long-term infrastructure support.',                                                        tags:['RHEL','CentOS','Solaris','SuSE','HP-UX'],                         visible:false, expanded:false },
+                    { title:'Network Architecture Diagrams', meta:'Visio · OmniGraffle',        icon:'fa-share-alt',   desc:'DNS zone maps, DHCP scope layouts, IPAM hierarchy diagrams, and full network infrastructure visuals for engineering reviews, audits, and team onboarding.',                                                                         tags:['Visio','OmniGraffle','draw.io','Confluence'],                     visible:false, expanded:false },
+                    { title:'Wi-Fi Setup & Optimization',    meta:'Home · Small Office',        icon:'fa-wifi',        desc:'Full Wi-Fi assessment, router placement, channel optimization, and configuration for reliable whole-home or office coverage. Includes password hardening and guest network isolation.',                                              tags:['Wi-Fi','Router','802.11','Coverage','Security'],                   visible:false, expanded:false },
+                    { title:'Router & Modem Configuration',  meta:'Swap · Setup · Optimize',    icon:'fa-exchange',    desc:'Modem and router installation, ISP configuration, port forwarding, QoS tuning, and firmware updates. Covers most major consumer and prosumer brands.',                                                                           tags:['Modem','Router','ISP','Port Forwarding','QoS'],                   visible:false, expanded:false },
+                    { title:'Mesh Network Installation',     meta:'Whole-Home Coverage',        icon:'fa-signal',      desc:'Design and installation of multi-node mesh systems for consistent whole-home or office coverage. Node placement, backhaul configuration, and performance validation included.',                                                    tags:['Mesh','Eero','Orbi','Google WiFi','Node Placement'],               visible:false, expanded:false },
+                    { title:'Ethernet Cable Consulting',     meta:'Wired · Reliable · Fast',    icon:'fa-plug',        desc:'On-site assessment and implementation of wired ethernet runs for desktops, smart TVs, gaming systems, and workstations. Cat5e/Cat6 runs up to 50 ft per visit.',                                                                tags:['Cat6','Cat5e','Ethernet','Wired','LAN'],                           visible:false, expanded:false },
+                    { title:'Network Troubleshooting',       meta:'Diagnostics · Resolution',   icon:'fa-stethoscope', desc:'Systematic diagnosis of connectivity issues, slow speeds, dropped connections, and device conflicts. Covers ISP handoff, router configuration, and endpoint problems.',                                                          tags:['Troubleshooting','Diagnostics','Connectivity','DNS','Speed'],      visible:false, expanded:false },
+                    { title:'Network Security Review',       meta:'Home Security Audit',        icon:'fa-shield',      desc:'Review of router security settings, default credential exposure, guest network isolation, firewall rules, and firmware currency. Written summary delivered after visit.',                                                         tags:['Security','Firewall','Guest Network','Audit','Firmware'],          visible:false, expanded:false },
+                    { title:'ISP Liaison Support',           meta:'On-Site Coordination',       icon:'fa-phone',       desc:'On-site support during ISP visits or as your technical representative when navigating service issues, equipment upgrades, or speed complaints with your provider.',                                                              tags:['ISP','Xfinity','CenturyLink','Technical Support','Coordination'], visible:false, expanded:false },
+                    { title:'IT Onboarding Documentation',   meta:'Small Team Setup',           icon:'fa-book',        desc:'Complete IT onboarding packages for small teams: system access guides, tool walkthroughs, credential management procedures, and first-week technical checklists.',                                                              tags:['Documentation','Onboarding','Confluence','Markdown'],             visible:false, expanded:false },
                 ],
                 webops: [
-                    { title:'Scripting & Automation', meta:['Perl','Bash'], tags:['ksh','zsh','PowerShell'], icon:'fa-code', desc:'Automation tooling...', expanded:false, visible:false },
-                    // ... other items
+                    { title:'Scripting & Automation',          meta:'Perl · Bash · Shell',        icon:'fa-terminal',  desc:'Automation tooling for sysadmin workflows, DNS record management, log parsing, data migration, and infrastructure integration across Unix and Windows environments.',                                              tags:['Perl','Bash','ksh','zsh','PowerShell'],                visible:false, expanded:false },
+                    { title:'Confluence & Jira Configuration', meta:'Atlassian · Documentation',  icon:'fa-tasks',     desc:'Full Confluence space buildout, page hierarchy design, and template creation. Jira project configuration, workflow customization, and team onboarding documentation.',                                          tags:['Confluence','Jira','Atlassian','Scrum'],               visible:false, expanded:false },
+                    { title:'Technical Writing',               meta:'Runbooks · SOPs · Guides',   icon:'fa-file-text', desc:'Process documentation, runbooks, integration guides, change procedures, and IT onboarding materials written clearly for operators, engineers, and executives.',                                                 tags:['Markdown','Docs-as-Code','Confluence','Visio'],        visible:false, expanded:false },
+                    { title:'Remote Advisory Sessions',        meta:'DNS · Linux · Perl',         icon:'fa-headphones',desc:'Live one-on-one advisory sessions for DNS troubleshooting, Linux system issues, Perl scripting questions, and infrastructure design reviews. Scheduled via video call.',                                        tags:['DNS','Linux','Perl','Infoblox','Codementor'],          visible:false, expanded:false },
+                    { title:'Application & DevOps Support',    meta:'Node.js · MySQL · MongoDB',  icon:'fa-cogs',      desc:'Application server administration, deployment pipeline support, and database operations for Apache, Node.js, MySQL, PostgreSQL, and MongoDB environments.',                                                    tags:['Node.js','MySQL','MongoDB','Apache','PostgreSQL'],     visible:false, expanded:false },
+                    { title:'VM Server Build & Docs',          meta:'Google Cloud · AWS · Azure', icon:'fa-cloud',     desc:'Virtual machine provisioning, configuration, and documentation in Google Cloud, AWS, Azure, and on-premises environments. Includes deployment runbooks and architecture records.',                             tags:['Google Cloud','AWS','Azure','CentOS','Apache'],        visible:false, expanded:false },
+                    { title:'BPM / Camunda Documentation',     meta:'Integration Guides',         icon:'fa-random',    desc:'Integration guides, process maps, swimlane diagrams, API reference docs, and change management procedures for Camunda BPM platform migrations.',                                                              tags:['Camunda','BPMN','Integration','API Docs'],             visible:false, expanded:false },
                 ],
                 design: [
-                    { title:'Logo & Brand Identity', meta:['Illustrator','Inkscape'], tags:['SVG','Brand Guide'], icon:'fa-paint-brush', desc:'Original logo design...', expanded:false, visible:false },
-                    // ... other items
+                    { title:'Logo & Brand Identity',          meta:'Identity Design',              icon:'fa-paint-brush',     desc:'Original logo design, brand color palette, typography selection, and brand style guide. Delivered in vector formats suitable for web, print, and merchandise.',                                                tags:['Illustrator','Inkscape','SVG','Brand Guide'],                           visible:false, expanded:false },
+                    { title:'Business Cards & Print Layout',  meta:'Print Design',                 icon:'fa-print',           desc:'Business card, flyer, brochure, and promotional material design. Print-ready files delivered in CMYK at correct resolution for professional printing.',                                                   tags:['Print-Ready','CMYK','Illustrator','InDesign'],                          visible:false, expanded:false },
+                    { title:'Document Design & Formatting',   meta:'Reports · Proposals',          icon:'fa-file',            desc:'Professional design and formatting for reports, proposals, guides, and presentation documents. Transforms plain content into polished, branded deliverables.',                                            tags:['LibreOffice','Word','InDesign','PDF'],                                  visible:false, expanded:false },
+                    { title:'Social Media Graphics',          meta:'Posts · Banners · Covers',     icon:'fa-picture-o',       desc:'On-brand graphics for Instagram, Facebook, LinkedIn, and X. Correctly sized for each platform — posts, stories, banners, and profile assets.',                                                         tags:['Photoshop','Canva','Instagram','LinkedIn'],                             visible:false, expanded:false },
+                    { title:'Presentation Design',            meta:'Slides & Decks',               icon:'fa-bar-chart',       desc:'Slide deck design for pitches, training, and conference talks. Custom templates, infographics, and clean layouts in your preferred format.',                                                             tags:['PowerPoint','Keynote','LibreOffice Impress','Google Slides'],           visible:false, expanded:false },
+                    { title:'Photo Editing & Retouching',     meta:'Adobe Creative Suite',         icon:'fa-photo',           desc:'Professional photo retouching, color correction, background removal, compositing, and image restoration using Adobe Photoshop and Lightroom.',                                                         tags:['Photoshop','Lightroom','Color Grading','Compositing'],                 visible:false, expanded:false },
+                    { title:'Site & Property Photography',    meta:'Business · Events · Listings', icon:'fa-camera',          desc:'On-site photography for small business locations, property listings, events, and website hero images. Edited and delivered in web-ready and print-ready formats. Enthusiast-level pricing.',            tags:['Photography','Business','Lightroom','Events','Editing'],               visible:false, expanded:false },
+                    { title:'Custom Illustrations & Diagrams',meta:'Hand-drawn · Digital',         icon:'fa-pencil-square-o', desc:'Custom illustrations, technical diagrams, and conceptual drawings created digitally or by hand. Suitable for websites, presentations, and print materials.',                                           tags:['Illustration','Diagrams','Custom Art','Digital','Hand-drawn'],         visible:false, expanded:false },
+                    { title:'Web Graphics & UI Elements',     meta:'Icons · Banners · UI',         icon:'fa-object-group',    desc:'Custom web graphics, icon sets, hero banners, and UI elements designed for web delivery. Optimized for performance in SVG and WebP formats.',                                                         tags:['SVG','WebP','Figma','Illustrator'],                                    visible:false, expanded:false },
                 ],
                 calli: [
-                    { title:'Wedding & Event Invitations', meta:['Copperplate','Italic'], tags:['Modern','Pointed Pen'], icon:'fa-font', desc:'Hand-addressed envelopes...', expanded:false, visible:false },
-                    // ... other items
+                    { title:'Wedding & Event Invitations', meta:'Envelope Addressing',   icon:'fa-envelope',   desc:'Hand-addressed envelopes and inner envelopes for weddings, formal events, and celebrations. Multiple script styles available — copperplate, italic, and modern calligraphy.',                                                    tags:['Copperplate','Italic','Modern','Pointed Pen'],       visible:false, expanded:false },
+                    { title:'Certificates & Diplomas',    meta:'Engrossing Services',    icon:'fa-certificate',desc:'Official-quality calligraphy for certificates, diplomas, awards, and formal recognitions. Engrossed by hand with attention to alignment, spacing, and consistency.',                                                          tags:['Engrossing','Certificates','Awards','Formal'],       visible:false, expanded:false },
+                    { title:'Place Cards & Menus',        meta:'Event Stationery',       icon:'fa-cutlery',    desc:'Handwritten place cards, table cards, menus, and seating charts for weddings, banquets, and formal dinners. Coordinated with your event palette and style.',                                                                 tags:['Place Cards','Menus','Seating Charts','Event'],      visible:false, expanded:false },
+                    { title:'Custom Framed Lettering',    meta:'Quotes & Art Pieces',    icon:'fa-picture-o',  desc:'Original calligraphy art pieces featuring quotes, poems, names, and custom text. Suitable for framing and gifting. Available in multiple script styles and paper sizes.',                                                    tags:['Custom Art','Quotes','Framed','Gift'],               visible:false, expanded:false },
+                    { title:'Scrivener & Legal Documents',meta:'Formal Documents',       icon:'fa-pencil',     desc:'Handwritten engrossment for legal documents, formal correspondence, proclamations, and official records requiring traditional calligraphic presentation.',                                                                   tags:['Scrivener','Legal','Formal','Engrossing'],           visible:false, expanded:false },
+                    { title:'Custom Holiday Cards',       meta:'Seasonal Correspondence',icon:'fa-gift',       desc:'Personalized holiday cards and seasonal correspondence hand-lettered with a unique, handcrafted feel. Individual cards or short runs for businesses and families.',                                                          tags:['Holiday','Cards','Seasonal','Personal'],             visible:false, expanded:false },
                 ],
             },
-                /* ── Portfolio Gallery ───────────────────────────────────────────── */
+
+            /* ── Gallery ───────────────────────────────────────────── */
             gallery: [
                 { title:'DNS Zone Hierarchy Diagram',     cat:'tech',   catLabel:'Pro Services', img:'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80',  visible:false },
                 { title:'Network Infrastructure Map',     cat:'tech',   catLabel:'Pro Services', img:'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80',  visible:false },
@@ -204,11 +107,18 @@ createApp({
         };
     },
 
+    /* ── Computed ─────────────────────────────────────────────────────── */
+    computed: {
+        techGallery()   { return this.gallery.filter(i => i.cat === 'tech');   },
+        designGallery() { return this.gallery.filter(i => i.cat === 'design'); },
+        calliGallery()  { return this.gallery.filter(i => i.cat === 'calli');  },
+    },
+
+    /* ── Lifecycle ────────────────────────────────────────────────────── */
     mounted() {
         window.addEventListener('scroll',  this.onScroll,  { passive: true });
         window.addEventListener('keydown', this.onKeydown);
         this._initCanvas();
-        this._processServicesData();  // ← Process tags ONCE on mount
         this._animateCards();
         this._initObserver();
         (() => {
@@ -250,36 +160,9 @@ createApp({
         if (this._obs)  this._obs.disconnect();
     },
 
+    /* ── Methods ──────────────────────────────────────────────────────── */
     methods: {
-        /* ── Tag Processing (Called Once on Mount) ────────────────────── */
-        _processServicesData() {
-            const processList = (list) => {
-                return list.map(item => {
-                    // Combine meta and tags, remove duplicates
-                    const allLabels = [...new Set([...(item.meta || []), ...(item.tags || [])])];
-                    
-                    // Create tag objects with descriptions
-                    const allTags = allLabels.map(label => ({
-                        label: label,
-                        shortDesc: TAG_DESCRIPTIONS[label] || `Details about ${label}.`
-                    }));
 
-                    return { ...item, allTags };
-                });
-            };
-
-            this.services.infra = processList(this.services.infra);
-            this.services.webops = processList(this.services.webops);
-            this.services.design = processList(this.services.design);
-            this.services.calli = processList(this.services.calli);
-        },
-
-        /* ── Card Toggle ──────────────────────────────────────────────── */
-        toggleCard(service) {
-            service.expanded = !service.expanded;
-        },
-
-        /* ── Existing methods (scroll, canvas, etc.) ──────────────────── */
         /* ── Scroll / nav ─────────────────────────────────────────── */
         onScroll() {
             this.isScrolled = window.scrollY > 50;
@@ -310,72 +193,55 @@ createApp({
             if (e.key === 'Escape' && this.isLightboxOpen) this.closeLightbox();
         },
 
-        /* ── Canvas Carousel Logic ─────────────────────────────────────── */
+        /* ══════════════════════════════════════════════════════════
+         * CANVAS CAROUSEL
+         *
+         * Fixed-size canvas (1000×1000 internal px, CSS-scaled).
+         * All transitions render inside the canvas — zero layout
+         * impact, no jitter anywhere on the page.
+         * ══════════════════════════════════════════════════════════ */
         _initCanvas() {
             const canvas = document.getElementById('hero-canvas');
             if (!canvas) return;
 
+            // Set internal resolution; CSS width/height scale it visually
             canvas.width  = CANVAS_SIZE;
             canvas.height = CANVAS_SIZE;
             this._canvas  = canvas;
             this._ctx     = canvas.getContext('2d');
             this._curIdx  = 0;
             this._busy    = false;
-            this._slideTimer = null;
 
-            // Load all SVGs
+            // Load all SVGs as Image objects
             let loaded = 0;
-            const total = this.heroLogos.length;
-            
             this._imgs = this.heroLogos.map(src => {
                 const img = new Image();
-                img.onload  = () => { 
-                    loaded++; 
-                    if (loaded === total) this._onReady(); 
-                };
-                img.onerror = () => { 
-                    console.error(`Failed to load logo: ${src}`);
-                    loaded++; 
-                    if (loaded === total) this._onReady(); 
-                };
+                img.onload  = () => { if (++loaded === this._imgs.length) this._onReady(); };
+                img.onerror = () => { if (++loaded === this._imgs.length) this._onReady(); };
                 img.src = src;
                 return img;
             });
         },
 
         _onReady() {
+            // Draw first logo immediately
             const ctx = this._ctx;
             ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-            
-            // Draw the first image immediately
             if (this._imgs[0] && this._imgs[0].naturalWidth) {
                 ctx.drawImage(this._imgs[0], 0, 0, CANVAS_SIZE, CANVAS_SIZE);
             }
-
-            // Start the cycle
-            this._startCycle();
-        },
-
-        _startCycle() {
-            if (this._slideTimer) clearTimeout(this._slideTimer);
+            // Start the slide timer
             this._slideTimer = setTimeout(() => this._advance(), SLIDE_HOLD_MS);
         },
 
         _advance() {
-            if (this._busy) {
-                // If busy, try again in 100ms
-                this._slideTimer = setTimeout(() => this._advance(), 100);
-                return;
-            }
-
-            const nextIdx = (this._curIdx + 1) % this._imgs.length;
-            const effectName = this.heroEffects[nextIdx]; // Get effect for the NEXT image
-            
-            this._runEffect(effectName, this._imgs[this._curIdx], this._imgs[nextIdx], () => {
-                this._curIdx = nextIdx;
-                this._busy = false;
-                // Start the next cycle
-                this._startCycle();
+            if (this._busy) return;
+            const next   = (this._curIdx + 1) % this._imgs.length;
+            const effect = this.heroEffects[next];   // entrance effect of destination
+            this._runEffect(effect, this._imgs[this._curIdx], this._imgs[next], () => {
+                this._curIdx  = next;
+                this._busy    = false;
+                this._slideTimer = setTimeout(() => this._advance(), SLIDE_HOLD_MS);
             });
         },
 
@@ -383,23 +249,15 @@ createApp({
             this._busy = true;
             const { _ctx: ctx } = this;
             const w = CANVAS_SIZE, h = CANVAS_SIZE;
-            
-            // Safety check for effect name
-            if (!this[`_fx${name.charAt(0).toUpperCase() + name.slice(1)}`]) {
-                console.warn(`Effect ${name} not found, falling back to dissolve`);
-                this._fxDissolve(ctx, from, to, w, h, done);
-                return;
-            }
-
             switch (name) {
                 case 'transporter': this._fxTransporter(ctx, from, to, w, h, done); break;
-                case 'mullany':     this._fxMullany(ctx, from, to, w, h, done); break;
-                case 'particles':   this._fxParticles(ctx, from, to, w, h, done); break;
-                case 'burn':        this._fxBurn(ctx, from, to, w, h, done); break;
-                default:            this._fxDissolve(ctx, from, to, w, h, done); break;
+                case 'mullany':     this._fxMullany    (ctx, from, to, w, h, done); break;
+                case 'particles':   this._fxParticles  (ctx, from, to, w, h, done); break;
+                case 'burn':        this._fxBurn       (ctx, from, to, w, h, done); break;
+                default:            this._fxDissolve   (ctx, from, to, w, h, done); break;
             }
         },
-        
+
         /* ── Effect 0 — Simple dissolve (fallback / loop-around) ─ */
         _fxDissolve(ctx, from, to, w, h, done) {
             const dur = 700, t0 = performance.now();

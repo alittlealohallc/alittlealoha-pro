@@ -1,13 +1,12 @@
 {
   "name": "alittlealoha-pro",
   "version": "1.0.0",
-  "description": "",
+  "description": "Base website for Alittlealoha Pro services, showcasing IT consulting, web development, design, and calligraphy offerings.",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
